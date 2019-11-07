@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "userid": "44",
+      "body": "qq1212",
+      "title": "qqqq1212",
+      "id": 1
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

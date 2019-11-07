@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <h1>ADD DATA</h1>
+    <p id="success"></p>
+    <input id="userid" type="text" placeholder="USER iD">
+    <input id="title" type="text" placeholder="TITLE">
+    <input id="body" type="text" placeholder="BODY">
+    <button id="add">ADD</button>
+    <br><br>
+    <h1>EDIT DATA</h1>
+    <p id="error"></p>
+    <input id="useridEdit" type="text" placeholder="USER iD">
+    <input id="idEdit" type="text" placeholder="ID">
+    <input id="titleEdit" type="text" placeholder="TITLE">
+    <input id="bodyEdit" type="text" placeholder="BODY">
+    <button id="edit">EDIT</button> <br><br>
+
+    <button id="refresh">REFRESH</button>
+
+    <table border="4">
+        <h1>GET POSTS</h1>
+        <thead>
+            <tr>
+                <th>USER ID</th>
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>BODY</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+
+
+    <script>
+        let button = document.getElementById("refresh");
+
+
+
+        try {
+            fetch("https://jsonplaceholder.typicode.com/posts")
+                .then(function(resp) {
+                    return resp.json();
+                }).then(function(data) {
+                    console.log(data);
+                    data.forEach(element => {
+                        console.log(element);
+                        let tbody = document.querySelector("tbody");
+                        let tr = document.createElement("tr");
+
+
+
+                        for (const key in element) {
+                            if (element.hasOwnProperty(key)) {
+                                const elements = element[key];
+                                console.log(elements);
+                                let td = document.createElement("td");
+
+                                td.innerHTML = elements;
+                                tbody.appendChild(tr);
+                                tr.appendChild(td);
+
+
+                            }
+
+                        }
+
+
+
+
+
+                        // tRowId.innerHTML = element.id;
+                        // console.log(tRowId);
+                    });
+                })
+
+        } catch (error) {
+
+            console.log("there is an error");
+
+        }
+
+
+        button.onclick = function() {
+            try {
+                fetch("https://jsonplaceholder.typicode.com/posts")
+                    .then(function(resp) {
+                        return resp.json();
+                    }).then(function(data) {
+                        console.log(data);
+                        data.forEach(element => {
+                            console.log(element);
+                            for (const key in element) {
+                                if (element.hasOwnProperty(key)) {
+                                    const elements = element[key];
+                                    console.log(elements);
+                                }
+
+                            }
+                            // tRowId.innerHTML = element.id;
+                            // console.log(tRowId);
+                        });
+                    })
+
+            } catch (error) {
+
+                console.log("there is an error");
+
+            }
+        }
+
+
+
+
+
+        let add = document.getElementById("add");
+        add.onclick = function() {
+
+
+
+
+            try {
+                let userid = document.getElementById("userid").value;
+                let body = document.getElementById("body").value;
+                let title = document.getElementById("title").value;
+                let success = document.getElementById("success")
+
+                // let error = document.getElementsByClassName("error")
+                fetch("https://jsonplaceholder.typicode.com/posts", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "userid": userid,
+                            "body": body,
+                            "title": title
+                        })
+                    })
+                    .then(function(resp) {
+                        return resp.json();
+                    }).then(function(data) {
+                        console.log(data);
+                        success.style.color = "green";
+                        success.innerHTML = "YRAAAA ADDED "
+                    })
+            } catch (error) {
+
+                success.innerHTML = "DAMMIT THERE IS AN ERROR";
+                success.style.color = "red";
+
+            }
+
+
+        }
+
+
+        let edit = document.getElementById("edit");
+        edit.onclick = function() {
+            console.log("object");
+            try {
+                let useridEdit = document.getElementById("useridEdit").value;
+                let idEdit = document.getElementById("idEdit").value;
+                let bodyEdit = document.getElementById("bodyEdit").value;
+                let titleEdit = document.getElementById("titleEdit").value;
+                let error = document.getElementById("error")
+
+                // let error = document.getElementsByClassName("error")
+                fetch(`https://jsonplaceholder.typicode.com/posts/` + idEdit, {
+                        method: "PUT",
+                        headers: {
+                            "Content-type": "application/json",
+                            "Accept": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "userid": useridEdit,
+                            "body": bodyEdit,
+                            "title": titleEdit,
+                            "id": idEdit
+
+                        })
+                    })
+                    .then(function(resp) {
+                        return resp.json();
+                    }).then(function(data) {
+                        console.log(data);
+                        error.style.color = "green";
+                        error.innerHTML = `DONE UPDATING ID: ` + idEdit;
+                    })
+            } catch (error) {
+
+                error.innerHTML = "DAMMIT THERE IS AN ERROR";
+                error.style.color = "red";
+
+            }
+
+
+        }
+    </script>
+
+</body>
+
+</html>
